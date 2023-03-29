@@ -1,5 +1,10 @@
 package recipesearch;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
 import se.chalmers.ait.dat215.lab2.Recipe;
 import se.chalmers.ait.dat215.lab2.RecipeDatabase;
 import se.chalmers.ait.dat215.lab2.SearchFilter;
@@ -20,6 +25,9 @@ public class RecipeBackendController {
     private int maxPrice = 0;
     private int maxTime = 0;
     private SearchFilter filter = new SearchFilter(null, 0, null, 0, null);
+
+
+
     public List<Recipe> getRecipes(){
         filter = new SearchFilter(cuisine, maxPrice, mainIngredient, maxTime, difficulty);
         return RecipeDatabase.getSharedInstance().search(filter);
