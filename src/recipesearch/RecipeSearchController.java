@@ -83,6 +83,7 @@ public class RecipeSearchController implements Initializable {
         });
     }
 
+    // TODO: Make sure only allowed numbers can be selected and that the label is updated when the slider is dragged
     private void initSlider(){
         maxTimeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             if(newVal != null && !newVal.equals(oldVal) && !maxTimeSlider.isValueChanging()) {
