@@ -10,10 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import se.chalmers.ait.dat215.lab2.Recipe;
 import se.chalmers.ait.dat215.lab2.RecipeDatabase;
@@ -33,18 +30,56 @@ public class RecipeSearchController implements Initializable {
     @FXML private Spinner maxPriceSpinner;
     @FXML private Slider maxTimeSlider;
     @FXML private FlowPane searchResultFlowPane;
+    @FXML private ToggleGroup difficultyToggleGroup = new ToggleGroup();
     RecipeDatabase db = RecipeDatabase.getSharedInstance();
     private RecipeBackendController backendController;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         backendController = new RecipeBackendController();
-        mainIngredientComboBox.setItems(javafx.collections.FXCollections.observableArrayList(backendController.getAllowedMainIngredients()));
-        mainIngredientComboBox.valueProperty().addListener((obs, oldVal, newVal) -> updateRecipeList());
+        initComboBoxes();
+        initToggleGroups();
+        initSpinner();
     }
 
 
+    private void initComboBoxes(){
+        mainIngredientComboBox.getItems().addAll(backendController.getAllowedMainIngredients());
+        cuisineComboBox.getItems().addAll(backendController.getAllowedCuisines());
 
+        mainIngredientComboBox.valueProperty().addListener((obs, oldVal, newVal) ->  {
+            backendController.setMainIngredient(newVal);updateRecipeList();
+        });
+        cuisineComboBox.valueProperty().addListener((obs, oldVal, newVal) ->  {
+            backendController.setCuisine(newVal);updateRecipeList();
+        });
+    }
+
+    private void initToggleGroups() {
+        allRadioButton.setToggleGroup(difficultyToggleGroup);
+        easyRadioButton.setToggleGroup(difficultyToggleGroup);
+        mediumRadioButton.setToggleGroup(difficultyToggleGroup);
+        hardRadioButton.setToggleGroup(difficultyToggleGroup);
+
+        allRadioButton.setSelected(true);
+
+        difficultyToggleGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) ->  {
+            if (difficultyToggleGroup.getSelectedToggle() != null) {
+                RadioButton selected = (RadioButton) difficultyToggleGroup.getSelectedToggle();
+                backendController.setDifficulty(selected.getText());
+                updateRecipeList();
+            }
+        });
+    }
+
+    private void initSpinner(){
+        SpinnerValueFactory<Integer> maxPriceValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999,1,5);
+        maxPriceSpinner.setValueFactory(maxPriceValueFactory);
+        maxPriceSpinner.valueProperty().addListener((obs, oldVal, newVal) -> {
+            backendController.setMaxPrice(Integer.parseInt(newVal.toString()));
+            updateRecipeList();
+        });
+    }
     private void updateRecipeList(){
         searchResultFlowPane.getChildren().clear();
         var recipes = backendController.getRecipes();

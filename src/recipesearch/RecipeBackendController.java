@@ -17,8 +17,8 @@ public class RecipeBackendController {
     }
     private RecipeSearchController searchController = new RecipeSearchController();
 
-    private List<String> allowedCuisines = (Arrays.asList("Sverige", "Grekland", "Indien", "Asien", "Afrika", "Frankrike"));
-    private List<String> allowedMainIngredients = (Arrays.asList("Kött", "Fisk", "Kyckling", "Vegetariskt"));
+    private List<String> allowedCuisines = (Arrays.asList(null,"Sverige", "Grekland", "Indien", "Asien", "Afrika", "Frankrike"));
+    private List<String> allowedMainIngredients = (Arrays.asList(null,"Kött", "Fisk", "Kyckling", "Vegetariskt"));
 
     public List<String> getAllowedCuisines() {
         return allowedCuisines;
@@ -49,7 +49,7 @@ public class RecipeBackendController {
 
 
     public List<Recipe> getRecipes(){
-        filter = new SearchFilter(cuisine, maxPrice, mainIngredient, maxTime, difficulty);
+        filter = new SearchFilter(difficulty, maxTime, cuisine, maxPrice, mainIngredient);
         return RecipeDatabase.getSharedInstance().search(filter);
     }
 
