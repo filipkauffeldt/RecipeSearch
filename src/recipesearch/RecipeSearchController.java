@@ -29,6 +29,7 @@ public class RecipeSearchController implements Initializable {
     @FXML private RadioButton hardRadioButton;
     @FXML private Spinner maxPriceSpinner;
     @FXML private Slider maxTimeSlider;
+    @FXML private Label maxTimeLabel;
     @FXML private FlowPane searchResultFlowPane;
     @FXML private ToggleGroup difficultyToggleGroup = new ToggleGroup();
     RecipeDatabase db = RecipeDatabase.getSharedInstance();
@@ -40,6 +41,7 @@ public class RecipeSearchController implements Initializable {
         initComboBoxes();
         initToggleGroups();
         initSpinner();
+        initSlider();
     }
 
 
@@ -73,11 +75,21 @@ public class RecipeSearchController implements Initializable {
     }
 
     private void initSpinner(){
-        SpinnerValueFactory<Integer> maxPriceValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999,1,5);
+        SpinnerValueFactory<Integer> maxPriceValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999,0,5);
         maxPriceSpinner.setValueFactory(maxPriceValueFactory);
         maxPriceSpinner.valueProperty().addListener((obs, oldVal, newVal) -> {
             backendController.setMaxPrice(Integer.parseInt(newVal.toString()));
             updateRecipeList();
+        });
+    }
+
+    private void initSlider(){
+        maxTimeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if(newVal != null && !newVal.equals(oldVal) && !maxTimeSlider.isValueChanging()) {
+                backendController.setMaxTime(newVal.intValue());
+                updateRecipeList();
+                maxTimeLabel.setText(newVal.intValue() + " min");
+            }
         });
     }
     private void updateRecipeList(){

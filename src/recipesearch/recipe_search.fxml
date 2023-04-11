@@ -38,8 +38,9 @@
                         <Label layoutX="9.0" layoutY="330.0" text="Maxpris" />
                         <Spinner fx:id="maxPriceSpinner" layoutX="111.0" layoutY="326.0" prefWidth="100.0" />
                         <Label layoutX="226.0" layoutY="330.0" text="kr" />
-                        <Label layoutX="9.0" layoutY="379.0" text="Maxtid" />
-                        <Slider fx:id="maxTimeSlider" layoutX="108.0" layoutY="381.0" />
+                        <Label layoutX="9.0" layoutY="379.0" text="Maxtid:" />
+                        <Slider fx:id="maxTimeSlider" layoutX="108.0" layoutY="381.0" max="150.0" min="10.0" showTickLabels="true" snapToTicks="true" />
+                        <Label fx:id="maxTimeLabel" layoutX="59.0" layoutY="379.0" text="0 min" />
                      </children>
                   </AnchorPane>
                 <AnchorPane fx:id="searchResultPane" minHeight="0.0" minWidth="0.0" prefHeight="498.0" prefWidth="280.0">
