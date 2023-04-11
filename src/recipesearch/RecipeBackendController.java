@@ -13,9 +13,29 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RecipeBackendController {
+    public RecipeBackendController() {
+    }
+    private RecipeSearchController searchController = new RecipeSearchController();
 
     private List<String> allowedCuisines = (Arrays.asList("Sverige", "Grekland", "Indien", "Asien", "Afrika", "Frankrike"));
     private List<String> allowedMainIngredients = (Arrays.asList("Kött", "Fisk", "Kyckling", "Vegetariskt"));
+
+    public List<String> getAllowedCuisines() {
+        return allowedCuisines;
+    }
+
+    public List<String> getAllowedMainIngredients() {
+        return allowedMainIngredients;
+    }
+
+    public List<String> getAllowedDifficulties() {
+        return allowedDifficulties;
+    }
+
+    public List<Integer> getAllowedMaxTime() {
+        return allowedMaxTime;
+    }
+
     private List<String> allowedDifficulties = (Arrays.asList("Lätt", "Mellan", "Svår"));
     private List<Integer> allowedMaxTime = (Arrays.asList(10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150));
 
