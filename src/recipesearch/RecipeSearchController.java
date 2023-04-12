@@ -1,16 +1,24 @@
 
 package recipesearch;
 
+import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import se.chalmers.ait.dat215.lab2.Recipe;
 import se.chalmers.ait.dat215.lab2.RecipeDatabase;
@@ -32,8 +40,14 @@ public class RecipeSearchController implements Initializable {
     @FXML private Label maxTimeLabel;
     @FXML private FlowPane searchResultFlowPane;
     @FXML private ToggleGroup difficultyToggleGroup = new ToggleGroup();
+    @FXML private Label recipeDetailNameLabel;
+    @FXML private ImageView recipeDetailImageView;
+    @FXML private Button recipeDetailCloseButton;
+    @FXML private SplitPane searchPane;
+    @FXML private AnchorPane recipeDetailPane;
     RecipeDatabase db = RecipeDatabase.getSharedInstance();
     private RecipeBackendController backendController;
+    private Map<String, RecipeListItem> recipeListItemMap = new HashMap<String, RecipeListItem>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,6 +56,11 @@ public class RecipeSearchController implements Initializable {
         initToggleGroups();
         initSpinner();
         initSlider();
+        for(Recipe recipe : backendController.getRecipes()){
+            RecipeListItem recipeListItem = new RecipeListItem(recipe, this);
+            recipeListItemMap.put(recipe.getName(), recipeListItem);
+            searchResultFlowPane.getChildren().add(recipeListItem);
+        }
     }
 
 
@@ -86,19 +105,52 @@ public class RecipeSearchController implements Initializable {
     // TODO: Make sure only allowed numbers can be selected and that the label is updated when the slider is dragged
     private void initSlider(){
         maxTimeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            maxTimeLabel.textProperty().setValue((newVal.intValue()-newVal.intValue()%10) + " min");
             if(newVal != null && !newVal.equals(oldVal) && !maxTimeSlider.isValueChanging()) {
-                backendController.setMaxTime(newVal.intValue());
+                backendController.setMaxTime(newVal.intValue()-newVal.intValue()%10);
                 updateRecipeList();
-                maxTimeLabel.setText(newVal.intValue() + " min");
+                maxTimeSlider.setValue(newVal.intValue()-newVal.intValue()%10);
             }
         });
+       /* maxTimeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(
+                    ObservableValue<? extends Number> observableValue,
+                    Number oldVal,
+                    Number newVal) {
+                maxTimeLabel.textProperty().setValue(String.valueOf(newVal.intValue()) + " min");
+                if(newVal != null && !newVal.equals(oldVal) && !maxTimeSlider.isValueChanging()) {
+                   // backendController.setMaxTime(newVal.intValue());
+                    //updateRecipeList();
+            }
+        }
+        });*/
     }
+
+    private void populateRecipeDetailView(Recipe recipe){
+        recipeDetailNameLabel.setText(recipe.getName());
+        recipeDetailImageView.setImage(recipe.getFXImage());
+    }
+
+    @FXML
+    public  void closeRecipeView(){
+        searchPane.toFront();
+    }
+
+    public void showRecipeDetailView(Recipe recipe){
+        populateRecipeDetailView(recipe);
+        recipeDetailPane.toFront();
+    }
+
+/*    public final EventHandler<? super MouseEvent> getOnDragDetected() {
+    }*/
     private void updateRecipeList(){
         searchResultFlowPane.getChildren().clear();
         var recipes = backendController.getRecipes();
 
         for (Recipe recipe : recipes){
-            searchResultFlowPane.getChildren().add(new RecipeListItem(recipe, this));
+            searchResultFlowPane.getChildren().add(recipeListItemMap.get(recipe.getName()));
         }
     }
 
