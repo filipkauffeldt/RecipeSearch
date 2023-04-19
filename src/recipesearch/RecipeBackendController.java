@@ -18,7 +18,7 @@ public class RecipeBackendController {
     private RecipeSearchController searchController = new RecipeSearchController();
 
     private List<String> allowedCuisines = (Arrays.asList("Visa alla","Sverige", "Grekland", "Indien", "Asien", "Afrika", "Frankrike"));
-    private List<String> allowedMainIngredients = (Arrays.asList("Visa alla","Kött", "Fisk", "Kyckling", "Vegetariskt"));
+    private List<String> allowedMainIngredients = (Arrays.asList("Visa alla","Kött", "Fisk", "Kyckling", "Vegetarisk"));
 
     public List<String> getAllowedCuisines() {
         return allowedCuisines;
