@@ -68,6 +68,9 @@ public class RecipeSearchController implements Initializable {
         mainIngredientComboBox.getItems().addAll(backendController.getAllowedMainIngredients());
         cuisineComboBox.getItems().addAll(backendController.getAllowedCuisines());
 
+        mainIngredientComboBox.getSelectionModel().selectFirst();
+        cuisineComboBox.getSelectionModel().selectFirst();
+
         mainIngredientComboBox.valueProperty().addListener((obs, oldVal, newVal) ->  {
             backendController.setMainIngredient(newVal);updateRecipeList();
         });
@@ -94,7 +97,7 @@ public class RecipeSearchController implements Initializable {
     }
 
     private void initSpinner(){
-        SpinnerValueFactory<Integer> maxPriceValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999,0,5);
+            SpinnerValueFactory<Integer> maxPriceValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,300,0,5);
         maxPriceSpinner.setValueFactory(maxPriceValueFactory);
         maxPriceSpinner.valueProperty().addListener((obs, oldVal, newVal) -> {
             backendController.setMaxPrice(Integer.parseInt(newVal.toString()));
@@ -102,7 +105,7 @@ public class RecipeSearchController implements Initializable {
         });
     }
 
-    // TODO: Make sure only allowed numbers can be selected and that the label is updated when the slider is dragged
+    
     private void initSlider(){
         maxTimeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             maxTimeLabel.textProperty().setValue((newVal.intValue()-newVal.intValue()%10) + " min");
@@ -112,20 +115,6 @@ public class RecipeSearchController implements Initializable {
                 maxTimeSlider.setValue(newVal.intValue()-newVal.intValue()%10);
             }
         });
-       /* maxTimeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-            @Override
-            public void changed(
-                    ObservableValue<? extends Number> observableValue,
-                    Number oldVal,
-                    Number newVal) {
-                maxTimeLabel.textProperty().setValue(String.valueOf(newVal.intValue()) + " min");
-                if(newVal != null && !newVal.equals(oldVal) && !maxTimeSlider.isValueChanging()) {
-                   // backendController.setMaxTime(newVal.intValue());
-                    //updateRecipeList();
-            }
-        }
-        });*/
     }
 
     private void populateRecipeDetailView(Recipe recipe){
