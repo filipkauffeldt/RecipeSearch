@@ -147,7 +147,7 @@ public class RecipeSearchController implements Initializable {
         recipeSummaryTextArea.setText(recipe.getDescription().replace(',','\n'));
     }
 
-    private Image getMainIngredientImage(String mainIngredient){
+    public Image getMainIngredientImage(String mainIngredient){
         String iconPath;
         switch (mainIngredient) {
             case "Kött":
@@ -167,7 +167,7 @@ public class RecipeSearchController implements Initializable {
         }
     }
 
-    private Image getDifficultyImage(String difficulty){
+    public Image getDifficultyImage(String difficulty){
         String iconPath;
         switch (difficulty) {
             case "Lätt":

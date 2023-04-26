@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <fx:root fx:id="recipeListItem" onMouseClicked="#onRecipeClick" prefHeight="100.0" prefWidth="495.0" styleClass="recipe-list-item" stylesheets="@recipe_search.css" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="recipeImageView" fitHeight="115.0" fitWidth="115.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="recipeNameLabel" layoutX="182.0" layoutY="49.0" text="Recipe name" />
+      <Label fx:id="recipeNameLabel" layoutX="147.0" layoutY="24.0" styleClass="text-larger" text="Recipe name" />
+      <Label fx:id="recipeTextArea" layoutX="147.0" layoutY="66.0" prefHeight="35.0" prefWidth="311.0" styleClass="text-smaller" />
+      <Label fx:id="listItemTime" layoutX="260.0" layoutY="50.0" text="Label" />
+      <Label fx:id="listItemPrice" layoutX="320.0" layoutY="50.0" text="Label" />
+      <ImageView fx:id="listItemCuisine" fitHeight="21.0" fitWidth="28.0" layoutX="89.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/icon_flag_sweden.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="listItemDiff" fitHeight="21.0" fitWidth="38.0" layoutX="200.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/icon_difficulty_hard.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="listItemIngredient" fitHeight="17.0" fitWidth="30.0" layoutX="160.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/icon_main_meat.png" />
+         </image>
+      </ImageView>
    </children>
 </fx:root>

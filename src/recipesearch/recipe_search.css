@@ -32,6 +32,11 @@
     -fx-background-color: #D0D0D0;
 }
 
+#recipeTextArea
+{
+    -fx-background-color: transparent;
+}
+
 #logo {
     -fx-font-size: 48;
     -fx-font-family: "Algerian";
